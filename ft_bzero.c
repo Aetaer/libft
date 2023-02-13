@@ -3,14 +3,23 @@
 void    ft_bzero(void *s, size_t n)
 {
     size_t  i;
-    unsigned char   *suc;
+    unsigned char   *temp;
 
     i = 0;
-    suc = (unsigned char *)s;
+    temp = s;
     while (i < n)
     {
-        suc[i] = 0;
+        temp[i] = '\0';
         i++;
     }
-    s = suc;
+    s = temp;
+}
+
+int main()
+{
+    char    str[] = "1526";
+    printf("%s\n", str);
+    ft_bzero(str, 2);
+    printf("%s\n", str);
+    return (0);
 }
