@@ -15,11 +15,11 @@ void    ft_bzero(void *s, size_t n)
     s = temp;
 }
 
-int main()
+/*int main()
 {
     char    str[] = "1526";
     printf("%s\n", str);
     ft_bzero(str, 2);
     printf("%s\n", str);
     return (0);
-}
+}*/
