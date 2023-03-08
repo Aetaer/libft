@@ -10,28 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *ndl, size_t len)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	size_t	i;
-	size_t	c;
-	size_t	n_len;
-	char	*hay;
+	size_t		i;
+	int			length;
+	char		*large;
+	char		*small;
 
+	if (*little == '\0')
+		return ((char *)big);
+	large = (char *)big;
+	small = (char *)little;
 	i = 0;
-	hay = (char *)haystack;
-	n_len = ft_strlen(ndl);
-	if (n_len == 0 || haystack == ndl)
-		return (hay);
-	while (hay[i] != '\0' && i < len)
+	length = ft_strlen(small);
+	while (large[i] != '\0' && (i + length) <= len)
 	{
-		c = 0;
-		while (hay[i + c] != '\0' && ndl[c] != '\0' && hay[i + c] == ndl[c] && i + c < len)
-			c++;
-		if (c == n_len)
-			return (hay + i);
+		if (ft_strncmp((large + i), small, length) == 0)
+		{
+			return (large + i);
+		}
 		i++;
 	}
-	return (0);
+	return (NULL);
 }
+
