@@ -1,64 +1,83 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akapusti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/27 18:11:34 by akapusti          #+#    #+#             */
+/*   Updated: 2023/02/02 16:47:11 by akapusti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-static int	wordcount(char const *str, char c)
+static int	ft_count_word(char const *s, char c)
 {
-	int		i;
-	int		timer;
+	int	i;
+	int	word;
 
 	i = 0;
-	timer = 0;
-	while (str[i])
+	word = 0;
+	while (s && s[i])
 	{
-		while (str[i] == c)
-			i++;
-		if (str[i] != c && str[i] != '\0')
-			timer++;
-		while (str[i] != c && str[i] != '\0')
+		if (s[i] != c)
+		{
+			word++;
+			while (s[i] != c && s[i])
+				i++;
+		}
+		else
 			i++;
 	}
-	return (timer);
+	return (word);
 }
 
-static int	wordlen(char const *str, char c)
+static int	ft_size_word(char const *s, char c, int i)
+{
+	int	size;
+
+	size = 0;
+	while (s[i] != c && s[i])
+	{
+		size++;
+		i++;
+	}
+	return (size);
+}
+
+static void	ft_free(char **strs, int j)
+{
+	while (j-- > 0)
+		free(strs[j]);
+	free(strs);
+}
+
+char	**ft_split(char const *s, char c)
 {
 	int		i;
-	int		timer2;
+	char	**strs;
+	int		size;
+	int		j;
 
 	i = 0;
-	timer2 = 0;
-	while (str[i] == c)
-		i++;
-	while (str[i] != c && str[i] != '\0')
+	j = -1;
+	strs = (char **)malloc((ft_count_word(s, c) + 1) * sizeof(char *));
+	if (!(strs))
+		return (NULL);
+	while (++j < ft_count_word(s, c))
 	{
-		timer2++;
-		i++;
+		while (s[i] == c)
+			i++;
+		size = ft_size_word(s, c, i);
+		strs[j] = ft_substr(s, i, size);
+		if (!(strs[j]))
+		{
+			ft_free(strs, j);
+			return (NULL);
+		}
+		i += size;
 	}
-	return (timer2);
-}
-
-char		**ft_split(char const *s, char c)
-{
-	char	**strmagic;
-	int		i;
-	int		i2;
-	int		i3;
-
-	if (!s || !(strmagic = (char **)malloc(sizeof(*strmagic)
-	* (wordcount(s, c) + 1))))
-		return (0);
-	i = -1;
-	i2 = 0;
-	while (++i < wordcount(s, c))
-	{
-		i3 = 0;
-		if (!(strmagic[i] = ft_strnew(wordlen(&s[i2], c) + 1)))
-			strmagic[i] = NULL;
-		while (s[i2] == c)
-			i2++;
-		while (s[i2] != c && s[i2])
-			strmagic[i][i3++] = s[i2++];
-		strmagic[i][i3] = '\0';
-	}
-	strmagic[i] = 0;
-	return (strmagic);
+	strs[j] = 0;
+	return (strs);
 }

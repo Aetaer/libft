@@ -1,65 +1,64 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akapusti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 16:23:49 by akapusti          #+#    #+#             */
+/*   Updated: 2023/02/02 14:52:36 by akapusti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-static void		ft_isnegative(char *s, int n, size_t len)
+static long int	counter(int n)
 {
-	char		*stemp;
-	int			ntemp;
-	size_t		ltemp;
+	int	i;
 
-	stemp = s;
-	ntemp = n;
-	ltemp = len;
-	if (ntemp < 0)
+	i = 0;
+	if (n <= 0)
 	{
-		stemp[ltemp--] = '-';
-		stemp[ltemp + 2] = '\0';
+		i = 1;
 	}
-	if (ntemp > 0)
-		stemp[ltemp++] = '\0';
-}
-
-static size_t	count_numbers(int n)
-{
-	size_t		i;
-
-	i = 1;
-	while (n /= 10)
+	while (n != 0)
+	{
+		n = n / 10;
 		i++;
+	}
 	return (i);
 }
 
-static char		*ft_iszero(char *c, int n)
+static char	*array(unsigned int n, char *arr, long int len)
 {
-	if (n == 0)
-		*c = '0';
-	return (c);
+	while (n > 0)
+	{
+		arr[len--] = (n % 10) + '0';
+		n = n / 10;
+	}
+	return (arr);
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
-	char		*s;
-	size_t		i;
-	size_t		len;
-	int			alts;
+	char			*str;
+	long int		len;
+	unsigned int	nb;
 
-	len = count_numbers(n);
-	i = 0;
-	s = 0;
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	if (!(s = ft_strnew(len)))
-		return (NULL);
+	len = counter(n);
+	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (0);
+	if (n == 0)
+		str[0] = '0';
 	if (n < 0)
-		alts = n * -1;
-	if (n > 0)
-		alts = n;
-	ft_iszero(s, n);
-	while (i <= len && n != 0)
 	{
-		s[i++] = alts % 10 + '0';
-		alts /= 10;
+		str[0] = '-';
+		nb = (unsigned int)n * (-1);
 	}
-	ft_isnegative(s, n, len);
-	ft_revstr(s);
-	return (s);
+	else
+		nb = (unsigned int)n;
+	str[len--] = '\0';
+	array(nb, str, len);
+	return (str);
 }

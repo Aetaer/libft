@@ -3,41 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akapiton <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: akapusti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/07 16:14:47 by akapiton          #+#    #+#             */
-/*   Updated: 2023/03/07 16:14:48 by akapiton         ###   ########.fr       */
+/*   Created: 2023/01/15 17:02:05 by akapusti          #+#    #+#             */
+/*   Updated: 2023/01/18 15:32:08 by akapusti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	unsigned char	*altdst;
-	unsigned char	*altsrc;
+	unsigned char		*to;
+	const unsigned char	*from;
 
-	altdst = (unsigned char *)dst;
-	altsrc = (unsigned char *)src;
-	while (n > 0)
+	if (!dest && !src)
+		return (0);
+	to = dest;
+	from = src;
+	while (n-- > 0)
 	{
-		*altdst = *altsrc;
-		altdst++;
-		altsrc++;
-		n--;
+		*to++ = *from++;
 	}
-	return (dst);
+	return (dest);
 }
-
-/*int main()
-{
-    char    dst[] = "";
-    char    src[] = "hello";
-
-    printf("Source is %s\n", src);
-    printf("Dest is %s\n", dst);
-    ft_memcpy(dst, src, 2);
-    printf("Source is %s\n", src);
-    printf("Dest is %s\n", dst);
-    return (0);
-}*/

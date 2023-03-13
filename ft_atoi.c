@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akapiton <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: akapusti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/07 16:10:31 by akapiton          #+#    #+#             */
-/*   Updated: 2023/03/07 16:29:19 by akapiton         ###   ########.fr       */
+/*   Created: 2023/01/13 15:13:04 by akapusti          #+#    #+#             */
+/*   Updated: 2023/01/18 16:37:50 by akapusti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,26 @@
 
 int	ft_atoi(const char *str)
 {
-	long	isneg;
-	long	nbr;
-	long	i;
+	int	i;
+	int	n;
+	int	m;
 
 	i = 0;
-	nbr = 0;
-	isneg = 0;
-	while (str[i] != '\0' && (str[i] == 32 || (str[i] <= 9 && str[i] >= 13)))
+	n = 0;
+	m = 1;
+	while ((str[i] == 32) || (str[i] >= 9 && str[i] <= 13))
 		i++;
-	if (str[i] != '\0' && str[i] == '-')
+	if (str[i] == '+' || str[i] == '-')
 	{
-		isneg = 1;
+		if (str[i] == '-')
+			m *= -1;
 		i++;
 	}
-	else if (str[i] == '+')
+	while (str[i] != '\0' && (str[i] >= 48 && str[i] <= 57))
+	{
+		n *= 10;
+		n += str[i] - '0';
 		i++;
-	while (str[i] != '\0' && ft_isdigit(str[i]))
-		nbr = (nbr * 10) + (str[i++] - '0');
-	if (isneg == 1)
-		return (-nbr);
-	return (nbr);
+	}
+	return (n * m);
 }
