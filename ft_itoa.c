@@ -29,14 +29,14 @@ static long int	counter(int n)
 	return (i);
 }
 
-static char	*array(unsigned int n, char *arr, long int len)
+static char	*array(unsigned int n, char *ar, long int len)
 {
 	while (n > 0)
 	{
-		arr[len--] = (n % 10) + '0';
+		ar[len--] = (n % 10) + '0';
 		n = n / 10;
 	}
-	return (arr);
+	return (ar);
 }
 
 char	*ft_itoa(int n)
